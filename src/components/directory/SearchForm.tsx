@@ -1,4 +1,3 @@
-// src/components/directory/SearchForm.tsx
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { MultiSelect } from '../ui/multi-select';
 import { X } from 'lucide-react';

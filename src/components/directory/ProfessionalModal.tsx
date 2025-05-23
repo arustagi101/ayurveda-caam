@@ -1,4 +1,3 @@
-// src/components/directory/ProfessionalModal.tsx
 import React from 'react';
 import { Professional } from '@/types/directory';
 import { X } from 'lucide-react';

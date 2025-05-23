@@ -1,12 +1,14 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Facebook, Instagram, Mail } from "lucide-react";
-import { useState, useEffect } from 'react';
 
 // Using shadcn Input component
 import { Input } from "@/components/ui/input";
 import CAAMButton from './CAAMButton';
+
 
 type SocialLink = {
   name: string;
@@ -32,15 +34,27 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
+import { useState, useEffect } from 'react';
+
 export default function Footer() {
-  // Use state for client-side rendering of the year
-  const [currentYear, setCurrentYear] = useState(2024); // Default fallback for SSG
-  
-  // Update year on client-side only
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
 
+  const handleNewsletterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // TODO: Implement actual newsletter signup logic here
+    // For example, get form data and send to an API endpoint
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    console.log('Newsletter signup:', { name, email });
+    alert('Thank you for subscribing! (This is a placeholder)');
+    event.currentTarget.reset(); // Optionally reset the form
+  };
+  
   return (
     <footer className="border-t border-border">
       <div className="container py-12">
@@ -93,7 +107,7 @@ export default function Footer() {
                   Subscribe to our newsletter for the latest news and updates.
                 </p>
               </div>
-              <form className="space-y-3 mt-1">
+              <form className="space-y-3 mt-1" onSubmit={handleNewsletterSubmit}>
                     <Input 
                       id="name"
                       type="text" 

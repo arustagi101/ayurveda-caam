@@ -1,12 +1,17 @@
-import Layout from '../components/Layout';
-import Mission from '../components/Mission';
-import Sponsors from '../components/Sponsors';
-import { CAAMButton } from '../components/CAAMButton';
+import Mission from '@/components/Mission';
+import Sponsors from '@/components/Sponsors';
+import { CAAMButton } from '@/components/CAAMButton';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
-export default function Index() {
+export const metadata: Metadata = {
+  title: "California Association of Ayurvedic Medicine | CAAM",
+  description: "Promoting, Advancing and Safeguarding the Practice of Ayurveda in California",
+};
+
+export default function Home() {
   return (
-    <Layout>
+    <>
       {/* Hero Section - Matching ayurveda-caam.org exactly */}
       <section className="bg-[#24403a] !text-white py-16 md:py-20">
         <div className="container">
@@ -63,6 +68,6 @@ export default function Index() {
       <section className="section-bg-primary">
         <Sponsors />
       </section>
-    </Layout>
+    </>
   );
 }

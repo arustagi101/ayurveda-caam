@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  env: {
-    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-  },
   // Enable compression
   compress: true,
   // Reduce bundle size by excluding certain packages from the bundle

@@ -1,4 +1,4 @@
-import { getImmersionEvents } from '@/utils/fetchSheetData';
+import { getImmersionEvents } from '@/lib/fetchSheetData';
 
 // Make sure the Google API key is set in the environment
 const API_KEY = process.env.GOOGLE_API_KEY;

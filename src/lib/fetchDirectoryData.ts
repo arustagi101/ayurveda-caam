@@ -9,12 +9,12 @@ function stringToArray(value?: string | number | boolean | null): string[] {
   if (!value && value !== 0) return [];
   const str = value.toString().trim();
   if (!str) return [];
-  
+
   // Check if the string contains newlines
   if (str.includes('\n')) {
     return str.split('\n').map(item => item.trim()).filter(Boolean);
   }
-  
+
   // Otherwise split by comma
   return str.split(',').map(item => item.trim()).filter(Boolean);
 }
@@ -44,7 +44,7 @@ function formatArrayToTitleCase(arr: string[]): string[] {
 export async function fetchDirectoryData(sheetId: string, sheetName: string = 'Sheet1'): Promise<Professional[]> {
   try {
     // Initialize the Google Sheets API
-    const sheets = google.sheets({ 
+    const sheets = google.sheets({
       version: 'v4',
       auth: process.env.GOOGLE_API_KEY
     });
@@ -62,7 +62,7 @@ export async function fetchDirectoryData(sheetId: string, sheetName: string = 'S
     }
 
     // Get headers (first row)
-    const headers = rows[0].map((header: string) => 
+    const headers = rows[0].map((header: string) =>
       String(header || '').trim().toLowerCase().replace(/\s+/g, '_')
     );
 
@@ -99,13 +99,78 @@ export async function fetchDirectoryData(sheetId: string, sheetName: string = 'S
         certificates: formatArrayToTitleCase(stringToArray(getValue('certificates'))), // Professional certificates
       };
     })
-    .filter(prof => {
-      // Filter out empty rows and only include professionals where 'list' is 'True'
-      return (prof.firstName || prof.lastName) && 
-             prof.listCategory.toLowerCase() === 'yes';
-    });
+      .filter(prof => {
+        // Filter out empty rows and only include professionals where 'list' is 'True'
+        return (prof.firstName || prof.lastName) &&
+          prof.listCategory.toLowerCase() === 'yes';
+      });
   } catch (error) {
     console.error('Error fetching directory data:', error);
     throw new Error('Failed to fetch data from Google Sheets');
   }
+}
+
+
+export async function getDirectoryData() {
+  const sheetId = process.env.MEMBERS_SHEET_ID!;
+  const professionals = await fetchDirectoryData(sheetId);
+
+  // Extract unique values for filters
+  const specialities = Array.from(
+    new Set(
+      professionals.flatMap((p: Professional) => p.speciality)
+    )
+  ).sort();
+
+  const languages = Array.from(
+    new Set(
+      professionals.flatMap((p: Professional) => p.languages)
+    )
+  ).sort();
+
+  // Separate CA cities and non-CA cities
+  const caCities: string[] = [];
+  const nonCaCities: string[] = [];
+
+  professionals.forEach((p: Professional) => {
+    const city = p.city.trim();
+    if (city) {
+      if (p.state.trim().toUpperCase() === 'CA' || p.state.trim().toUpperCase() === 'CALIFORNIA') {
+        if (!caCities.includes(city)) {
+          caCities.push(city);
+        }
+      } else {
+        if (!nonCaCities.includes(city)) {
+          nonCaCities.push(city);
+        }
+      }
+    }
+  });
+
+  // Sort CA cities alphabetically
+  caCities.sort();
+
+  // Create the final cities array with CA cities first, then a "Non-CA" option
+  const cities = [...caCities];
+  if (nonCaCities.length > 0) {
+    cities.push('Non-CA');
+  }
+
+  // Simplify states to just "CA" and "Non-CA" if there are non-CA professionals
+  const hasNonCaProfessionals = professionals.some(
+    (p: Professional) => p.state.trim().toUpperCase() !== 'CA' && p.state.trim().toUpperCase() !== 'CALIFORNIA'
+  );
+
+  const states = ['CA'];
+  if (hasNonCaProfessionals) {
+    states.push('Non-CA');
+  }
+
+  return {
+    professionals: JSON.parse(JSON.stringify(professionals)), // Ensure serialization
+    specialities,
+    languages,
+    cities,
+    states,
+  };
 }

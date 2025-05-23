@@ -1,4 +1,3 @@
-// src/components/directory/ProfessionalCard.tsx
 import React, { useState } from 'react';
 import { Professional } from '@/types/directory';
 import { ProfessionalModal } from './ProfessionalModal';

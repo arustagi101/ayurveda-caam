@@ -1,25 +1,14 @@
+import { ImmersionEvent } from '@/types/immersion';
 import { google } from 'googleapis';
 
 export interface SheetData {
   [key: string]: string | number | boolean | null;
 }
 
-// Define ImmersionEvent interface to match your types
-export interface ImmersionEvent {
-  id: string;
-  name: string;
-  topic: string;
-  date: string;
-  time: string;
-  presenter: string;
-  details: string;
-  image: string;
-}
-
 export async function fetchSheetData(sheetId: string, sheetName: string = 'Sheet1'): Promise<SheetData[]> {
   try {
     // Initialize the Google Sheets API
-    const sheets = google.sheets({ 
+    const sheets = google.sheets({
       version: 'v4',
       auth: process.env.GOOGLE_API_KEY
     });
@@ -37,7 +26,7 @@ export async function fetchSheetData(sheetId: string, sheetName: string = 'Sheet
     }
 
     // Get headers (first row)
-    const headers = rows[0].map((header: string) => 
+    const headers = rows[0].map((header: string) =>
       String(header || '').trim().toLowerCase().replace(/\s+/g, '_')
     );
 
@@ -50,7 +39,7 @@ export async function fetchSheetData(sheetId: string, sheetName: string = 'Sheet
 
       // Create an object for the current row
       const rowData: SheetData = {};
-      
+
       headers.forEach((header, index) => {
         if (header) {  // Only process non-empty headers
           rowData[header] = row[index] ? String(row[index]).trim() : null;
@@ -86,3 +75,41 @@ export async function getImmersionEvents(sheetId: string): Promise<ImmersionEven
     link: String(row.link || '').trim()
   }));
 }
+
+export async function getImmersionEventsWithDates(): Promise<{ nextEvent?: ImmersionEvent, upcomingEvents: ImmersionEvent[], pastEvents: ImmersionEvent[] }> {
+  try {
+    const sheetId = process.env.IMMERSION_SHEET_ID!;
+    const events = await getImmersionEvents(sheetId);
+
+    // Separate upcoming and past events
+    const now = new Date();
+    const allUpcomingEvents = events
+      .filter(event => new Date(event.date) >= now)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    // Get the next event (first upcoming event)
+    const nextEvent = allUpcomingEvents[0] || null;
+
+    // Filter out the next event from the upcoming events list
+    const upcomingEvents = nextEvent
+      ? allUpcomingEvents.filter(event => event.id !== nextEvent.id)
+      : [];
+
+    const pastEvents = events
+      .filter(event => new Date(event.date) < now)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return {
+      upcomingEvents,
+      pastEvents,
+      nextEvent,
+    };
+  } catch (error) {
+    console.error('Error in getStaticProps:', error);
+    return {
+      upcomingEvents: [],
+      pastEvents: [],
+      nextEvent: undefined,
+    };
+  }
+};
