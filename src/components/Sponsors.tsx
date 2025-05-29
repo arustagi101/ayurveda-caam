@@ -114,10 +114,7 @@ export default function Sponsors() {
   };
 
   return (
-    <section className="py-20 relative" style={{ backgroundColor: 'var(--off-white)' }}>
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5" style={{ backgroundColor: 'var(--brand-gold)' }}></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5" style={{ backgroundColor: 'var(--dark-green)' }}></div>
+    <section className="py-20 md:py-28 relative" style={{ backgroundColor: 'var(--off-white)' }}>
       
       <div className="container relative z-10 mx-auto px-4">
         <div className="text-center mb-16 md:mb-20">

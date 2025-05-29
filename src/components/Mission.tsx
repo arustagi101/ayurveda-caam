@@ -26,14 +26,11 @@ const missionPillars: MissionPillar[] = [
   },
 ];
 
-const missionStatement = 'CAAM exists to establish Ayurveda as a recognized healthcare profession in California, preserving its authentic wisdom while making its transformative benefits accessible to all.';
+const missionStatement = 'CAAM’s mission is to promote, protect, preserve and integrate the principles of Ayurveda, through exceptional education, professional practices, advancing industry research, increasing public awareness and being the leading source of advancement for the Profession of Ayurveda in California for sustainable health and wellbeing.';
 
 export default function Mission() {
   return (
     <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: 'var(--off-white)' }}>
-      {/* Decorative elements */}
-      <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-10" style={{ backgroundColor: 'var(--brand-gold)' }}></div>
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full opacity-10" style={{ backgroundColor: 'var(--dark-green)' }}></div>
       
       <div className="container relative z-10 mx-auto">
         {/* Mission Headline */}
@@ -51,7 +48,7 @@ export default function Mission() {
           
           {/* Vision Statement */}
           <p className="text-lg md:text-xl max-w-4xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            We envision a California where Ayurveda is an integral part of the healthcare landscape, honored for its wisdom in fostering holistic well-being and recognized as a profession that harmonizes body, mind, and spirit with nature.
+          CAAM exists to establish and grow Ayurveda as an independent profession. We recognize it is a comprehensive healthcare practice that honors the interconnectedness of body-mind-spirit in harmony with the natural rhythms.
           </p>
         </div>
 

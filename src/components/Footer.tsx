@@ -56,7 +56,7 @@ export default function Footer() {
   };
   
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t" style={{ borderColor: 'var(--dark-green)' }}>
       <div className="container py-12">
         <div className="flex flex-wrap -mx-4 h-full">
           {/* Left Column - Logo and Mission - 40% */}
@@ -170,7 +170,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-6 border-t flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: 'var(--dark-green)' }}>
           <p className="text-sm">
             &copy; {currentYear} California Association of Ayurvedic Medicine. All rights reserved.
           </p>

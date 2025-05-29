@@ -28,8 +28,9 @@ const logoVariants = {
 
 export default function Hero() {
   return (
-    <div className="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-emerald-800/95 via-amber-700/85 to-emerald-900/95">
-      <div className="container z-10 mx-auto px-6 md:px-8 mt-0 md:-mt-30">
+    <section className="relative overflow-hidden min-h-screen flex items-center" style={{ backgroundColor: 'var(--dark-green)' }}>
+      
+      <div className="container relative z-10 mx-auto px-6 md:px-8 mt-2 md:-mt-24">
         <div className="flex flex-col md:flex-row items-center justify-between text-center md:text-left py-12 md:py-20">
           {/* Logo Area */}
           <div className="w-full md:w-2/5 lg:w-5/12 mb-12 md:mb-0 flex justify-center md:justify-center items-center">
@@ -53,9 +54,9 @@ export default function Hero() {
 
           {/* Text Content Area */}
           <div className="w-full md:w-3/5 lg:w-7/12 space-y-8 md:pr-12 lg:pr-16 md:text-left">
-            <h1 className="hero-title text-white md:text-left">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-100 to-amber-400 animate-gradient-x">
-                Advance Your Practice. Shape Ayurveda&apos;s Future.
+            <h1 className="hero-title md:text-left font-bold tracking-tight">
+              <span className="text-white">
+                Advance Your Practice. <span className="text-amber-300">Shape Ayurveda&apos;s Future.</span>
               </span>
             </h1>
 
@@ -87,6 +88,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
