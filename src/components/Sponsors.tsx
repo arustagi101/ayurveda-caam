@@ -1,22 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useEffect, useRef } from 'react';
 import { CAAMButton } from './CAAMButton';
 import Image from 'next/image';
-
-// Add CSS to hide scrollbars across browsers - moved to a separate component
-const ScrollbarStyles = () => (
-  <style jsx global>{`
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-    }
-  `}</style>
-);
 
 type SponsorLogoProps = {
   name: string;
@@ -74,96 +60,8 @@ const SponsorLogo: React.FC<SponsorLogoProps> = ({ name, logo, url, size, classN
   );
 };
 
-// Client-side only component for scrolling effect
-const ClientOnlyScrollingLogos = ({ sponsors }: { sponsors: Array<{ name: string; logo: string; url: string }> }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    if (!scrollRef.current) return;
-    
-    const scroll = () => {
-      if (!scrollRef.current) return;
-      
-      if (scrollRef.current.scrollLeft >= (scrollRef.current.scrollWidth - scrollRef.current.clientWidth)) {
-        scrollRef.current.scrollLeft = 0;
-      } else {
-        scrollRef.current.scrollLeft += 1;
-      }
-    };
-    
-    const interval = setInterval(scroll, 30);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <>
-      <ScrollbarStyles />
-      <div className="relative overflow-hidden w-full">
-        <div 
-          ref={scrollRef}
-          className="flex space-x-8 py-6 overflow-x-auto no-scrollbar"
-          style={{ scrollBehavior: 'smooth', gap: '1.5rem' }}
-        >
-          {sponsors.map((sponsor) => (
-            <div key={sponsor.name} className="flex-shrink-0">
-              <SponsorLogo
-                name={sponsor.name}
-                logo={sponsor.logo}
-                url={sponsor.url}
-                size="md"
-                className="w-48"
-              />
-            </div>
-          ))}
-          {/* Duplicate sponsors for continuous scrolling effect */}
-          {sponsors.map((sponsor) => (
-            <div key={`${sponsor.name}-dup`} className="flex-shrink-0">
-              <SponsorLogo
-                name={sponsor.name}
-                logo={sponsor.logo}
-                url={sponsor.url}
-                size="md"
-                className="w-48"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-};
-
-// SSG-compatible wrapper for the scrolling logos
-const ScrollingLogos = ({ sponsors }: { sponsors: Array<{ name: string; logo: string; url: string }> }) => {
-  const [isClient, setIsClient] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsClient(true);
-  }, []);
-  
-  // Static fallback for SSG
-  if (!isClient) {
-    return (
-      <div className="relative overflow-hidden w-full">
-        <div className="flex flex-wrap justify-center gap-6 py-6">
-          {sponsors.map((sponsor) => (
-            <div key={sponsor.name} className="flex-shrink-0">
-              <SponsorLogo
-                name={sponsor.name}
-                logo={sponsor.logo}
-                url={sponsor.url}
-                size="md"
-                className="w-48"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  
-  return <ClientOnlyScrollingLogos sponsors={sponsors} />;
-};
+// NOTE: We've removed the scrolling logos component since we now use a regular grid layout
+// This was causing a TypeScript warning about unused variables
 
 export default function Sponsors() {
   const sponsors = {
@@ -228,7 +126,7 @@ export default function Sponsors() {
           </h2>
           
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8" style={{ color: 'var(--text-secondary)' }}>
-            We're grateful to work with organizations that share our commitment to advancing Ayurveda in California.
+            We&apos;re grateful to work with organizations that share our commitment to advancing Ayurveda in California.
           </p>
         </div>
         
