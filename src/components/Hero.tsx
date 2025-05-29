@@ -1,29 +1,7 @@
 'use client';
 import { CAAMButton } from './CAAMButton';
-import React from 'react'; // Removed useState, useEffect, useRef
+import React from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-
-const logoVariants = {
-  initial: { opacity: 0, scale: 0.8, y: 20 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    rotate: [0, 2, -2, 0], // More subtle rotation
-    transition: {
-      duration: 1.2,
-      ease: 'easeInOut',
-      scale: { type: 'spring', stiffness: 80, damping: 10 },
-      y: { type: 'spring', stiffness: 80, damping: 10 },
-      rotate: {
-        repeat: Infinity,
-        duration: 5, // Slower rotation cycle
-        ease: 'easeInOut',
-      },
-    },
-  },
-};
 
 
 export default function Hero() {
@@ -34,12 +12,7 @@ export default function Hero() {
         <div className="flex flex-col md:flex-row items-center justify-between text-center md:text-left py-12 md:py-20">
           {/* Logo Area */}
           <div className="w-full md:w-2/5 lg:w-5/12 mb-12 md:mb-0 flex justify-center md:justify-center items-center">
-            <motion.div
-              variants={logoVariants}
-              initial="initial"
-              animate="animate"
-              className="w-[80%] h-[80%] md:w-80 md:h-80 lg:w-[350px] lg:h-[350px] xl:w-[400px] xl:h-[400px]"
-            >
+            <div className="w-[80%] h-[80%] md:w-80 md:h-80 lg:w-[350px] lg:h-[350px] xl:w-[400px] xl:h-[400px]">
               <Image
                 src="/assets/logos/caam_golden_logo.png"
                 alt="CAAM Golden Logo"
@@ -49,7 +22,7 @@ export default function Hero() {
                 className="object-contain drop-shadow-2xl"
                 priority
               />
-            </motion.div>
+            </div>
           </div>
 
           {/* Text Content Area */}
