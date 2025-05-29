@@ -96,7 +96,7 @@ export default function Mission() {
         {/* Conclusion Statement */}
         <div className="mt-20 text-center">
           <p className="text-lg md:text-xl font-medium max-w-4xl mx-auto mb-8" style={{ color: 'var(--accent-primary)' }}>
-            Join us in shaping the future of holistic healthcare in California.
+            Join us in shaping the future of Ayurveda in California.
           </p>
           
           <div className="flex justify-center">

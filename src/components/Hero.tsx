@@ -60,7 +60,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-lg md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-3xl md:max-w-none">
-              The California Association of Ayurvedic Medicine (CAAM) is your dedicated partner in professional excellence. We provide the advocacy, resources, and community to elevate your practice and establish Ayurveda as a leading independent profession, honoring the profound connection of body, mind, and spirit in California.
+              The California Association of Ayurvedic Medicine (CAAM) is your dedicated partner in professional excellence. We provide the advocacy, resources, and community to elevate your practice and establish Ayurveda as a leading profession in California, honoring the profound connection of body, mind, and spirit.
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row justify-center md:justify-start gap-5">
