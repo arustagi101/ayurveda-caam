@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useEffect, useRef } from 'react';
+import { CAAMButton } from './CAAMButton';
 import Image from 'next/image';
 
 // Add CSS to hide scrollbars across browsers - moved to a separate component
@@ -26,24 +27,24 @@ type SponsorLogoProps = {
 };
 
 const SponsorLogo: React.FC<SponsorLogoProps> = ({ name, logo, url, size, className = '' }) => {
-  // Fixed dimensions for each card size
+  // Proportional dimensions with clear hierarchy
   const cardDimensions = {
-    sm: 'w-44 h-44',
-    md: 'w-56 h-56',
-    lg: 'w-72 h-72'
+    sm: 'w-44 h-28',
+    md: 'w-56 h-36',
+    lg: 'w-72 h-48'
   };
   
-  // Image dimensions for each size
+  // Image dimensions with proper sizing
   const imageDimensions = {
-    sm: { width: 120, height: 80 },
-    md: { width: 160, height: 120 },
-    lg: { width: 200, height: 160 }
+    sm: { width: 100, height: 60 },
+    md: { width: 140, height: 90 },
+    lg: { width: 180, height: 120 }
   };
 
   const containerClasses = {
-    sm: 'p-4 bg-gray-50 hover:bg-gray-100 rounded-md shadow-sm hover:shadow border border-gray-100',
-    md: 'p-6 bg-gradient-to-b from-amber-50 to-white hover:from-amber-100 hover:to-amber-50 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 border border-amber-100',
-    lg: 'p-8 bg-gradient-to-b from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 border border-amber-200'
+    sm: 'p-4 bg-white hover:bg-gray-50 rounded-md shadow-sm hover:shadow transition-all duration-300 border border-gray-100',
+    md: 'p-5 bg-white hover:bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-gray-100',
+    lg: 'p-6 bg-white hover:bg-gray-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100'
   };
 
   return (
@@ -53,15 +54,21 @@ const SponsorLogo: React.FC<SponsorLogoProps> = ({ name, logo, url, size, classN
       rel="noopener noreferrer"
       className={`flex flex-col items-center justify-center transition-all duration-300 ${containerClasses[size]} ${cardDimensions[size]} ${className}`}
     >
-      <div className="relative flex-1 w-full flex items-center justify-center">
-        <Image 
-          className="object-contain"
-          src={logo} 
-          alt={name} 
-          width={imageDimensions[size].width}
-          height={imageDimensions[size].height}
-          style={{ maxWidth: '100%', maxHeight: '100%' }}
-        />
+      <div className="relative flex-1 w-full flex items-center justify-center p-2">
+        <div className="w-full h-full flex items-center justify-center overflow-hidden">
+          <Image 
+            className="object-contain"
+            src={logo} 
+            alt={name} 
+            width={imageDimensions[size].width}
+            height={imageDimensions[size].height}
+            style={{ 
+              maxWidth: '90%', 
+              maxHeight: '90%',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
       </div>
     </a>
   );
@@ -209,24 +216,31 @@ export default function Sponsors() {
   };
 
   return (
-    <div className="py-16">
-      <div className="container">
-        <div className="text-center">
-          <h2 className="text-base text-emerald-700 font-semibold tracking-wide uppercase mb-2">
-            Our Valued Partners & Sponsors
+    <section className="py-20 relative" style={{ backgroundColor: 'var(--off-white)' }}>
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5" style={{ backgroundColor: 'var(--brand-gold)' }}></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5" style={{ backgroundColor: 'var(--dark-green)' }}></div>
+      
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight" style={{ color: 'var(--dark-green)' }}>
+            Our Partners
           </h2>
-          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-700 sm:mt-4">
-            We are grateful for the support of our partners who help us promote and advance Ayurveda in California.
-          </p>
           
-          {/* Platinum Sponsors */}
-          <div className="mt-16">
-            <div className="flex items-center justify-center mb-8">
-              <div className="h-0.5 w-16 bg-emerald-200 mr-4"></div>
-              <h3 className="text-base text-emerald-700 font-semibold uppercase tracking-wide">Platinum</h3>
-              <div className="h-0.5 w-16 bg-emerald-200 ml-4"></div>
-            </div>
-            <div className="mt-8 flex justify-center">
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8" style={{ color: 'var(--text-secondary)' }}>
+            We're grateful to work with organizations that share our commitment to advancing Ayurveda in California.
+          </p>
+        </div>
+        
+        {/* All Partners in organized grid layout */}
+        <div className="mb-16">
+          {/* Platinum Partners */}
+          <div className="mb-12 text-center">
+            <h3 className="inline-block px-4 py-1 mb-8 text-sm font-semibold uppercase tracking-wide rounded-full" 
+                style={{ backgroundColor: 'rgba(201, 175, 76, 0.15)', color: 'var(--accent-primary)' }}>
+              Platinum Partners
+            </h3>
+            <div className="flex flex-wrap justify-center gap-8">
               {sponsors.platinum.map((sponsor) => (
                 <SponsorLogo
                   key={sponsor.name}
@@ -234,31 +248,39 @@ export default function Sponsors() {
                   logo={sponsor.logo}
                   url={sponsor.url}
                   size="lg"
+                  className="mx-2"
                 />
               ))}
             </div>
           </div>
 
-          {/* Bronze Sponsors - Horizontal Scrolling */}
-          <div className="mt-20">
-            <div className="flex items-center justify-center mb-6">
-              <div className="h-0.5 w-12 bg-emerald-200 mr-3"></div>
-              <h3 className="text-base text-emerald-700 font-semibold uppercase tracking-wide">Bronze</h3>
-              <div className="h-0.5 w-12 bg-emerald-200 ml-3"></div>
-            </div>
-            <div className="mt-6">
-              <ScrollingLogos sponsors={sponsors.bronze} />
+          {/* Bronze Partners */}
+          <div className="mb-12 text-center">
+            <h3 className="inline-block px-4 py-1 mb-8 text-sm font-semibold uppercase tracking-wide rounded-full" 
+                style={{ backgroundColor: 'rgba(201, 175, 76, 0.15)', color: 'var(--accent-primary)' }}>
+              Bronze Partners
+            </h3>
+            <div className="flex flex-wrap justify-center gap-6">
+              {sponsors.bronze.map((sponsor) => (
+                <SponsorLogo
+                  key={sponsor.name}
+                  name={sponsor.name}
+                  logo={sponsor.logo}
+                  url={sponsor.url}
+                  size="md"
+                  className="mx-2"
+                />
+              ))}
             </div>
           </div>
 
           {/* Community Partners */}
-          <div className="mt-16">
-            <div className="flex items-center justify-center mb-4">
-              <div className="h-0.5 w-8 bg-emerald-200 mr-3"></div>
-              <h3 className="text-base text-emerald-700 font-semibold uppercase tracking-wide">Community</h3>
-              <div className="h-0.5 w-8 bg-emerald-200 ml-3"></div>
-            </div>
-            <div className="mt-4 flex justify-center">
+          <div className="mb-8 text-center">
+            <h3 className="inline-block px-4 py-1 mb-6 text-sm font-semibold uppercase tracking-wide rounded-full" 
+                style={{ backgroundColor: 'rgba(201, 175, 76, 0.15)', color: 'var(--accent-primary)' }}>
+              Community Allies
+            </h3>
+            <div className="flex flex-wrap justify-center gap-5">
               {sponsors.community.map((sponsor) => (
                 <SponsorLogo
                   key={sponsor.name}
@@ -266,12 +288,34 @@ export default function Sponsors() {
                   logo={sponsor.logo}
                   url={sponsor.url}
                   size="sm"
+                  className="mx-2"
                 />
               ))}
             </div>
           </div>
         </div>
+        
+        {/* Call to Partnership */}
+        <div className="mt-16 text-center max-w-2xl mx-auto pt-10 border-t border-gray-200">
+          <p className="text-lg font-medium mb-4" style={{ color: 'var(--accent-primary)' }}>
+            Interested in partnering with CAAM?
+          </p>
+          <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
+            Join our growing network of organizations committed to advancing Ayurvedic medicine in California.
+          </p>
+          <div className="flex justify-center">
+            <CAAMButton
+              href="/contact"
+              variant="primary"
+              size="md"
+              showArrow={true}
+              className="shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Become a Partner
+            </CAAMButton>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

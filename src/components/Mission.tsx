@@ -1,69 +1,117 @@
+import { Leaf, Shield, Users } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
+import { CAAMButton } from './CAAMButton';
 
-import { Leaf, Users, ShieldCheck } from 'lucide-react';
-import { CAAMButton } from "./CAAMButton";
-
-type Feature = {
-  name: string;
+interface MissionPillar {
+  title: string;
   description: string;
-  icon: React.ElementType;
-};
+  icon: LucideIcon;
+}
 
-const features: Feature[] = [
+const missionPillars: MissionPillar[] = [
   {
-    name: 'Connect & Empower',
-    description:
-      'CAAM brings together Ayurveda professionals, institutions, students, and enthusiasts across California, creating a united community dedicated to lasting change. We envision a world where people take action to heal and transform—globally, locally, and within themselves.',
-    icon: Leaf
+    title: 'Honoring Tradition',
+    description: 'Preserving and advancing Ayurveda\'s authentic principles while establishing rigorous professional standards that elevate the practice to its rightful place in modern healthcare.',
+    icon: Leaf,
   },
   {
-    name: 'Transform Communities',
-    description:
-      'CAAM is a dynamic network of professionals, leaders, and change-makers committed to bringing holistic healing to the world. We work together to drive impactful change, promoting well-being and harmony in our communities and beyond.',
-    icon: Users
+    title: 'Empowering Practitioners',
+    description: 'Building a protected framework for Ayurvedic professionals through advocacy, standardized education, ethical guidelines, and the pursuit of state-recognized licensure.',
+    icon: Shield,
   },
   {
-    name: 'Drive Solutions',
-    description:
-      'For over 22 years, CAAM has championed the Ayurvedic community, embodying the principles of Ayurveda while advancing it as an independent profession. We protect the right to practice Ayurveda, ensuring its integrity and supporting its growth to serve humanity.',
-    icon: ShieldCheck
+    title: 'Uniting Community',
+    description: 'Cultivating a collaborative ecosystem of professionals, educators, and enthusiasts to strengthen Ayurveda\'s voice and expand its reach throughout California.',
+    icon: Users,
   },
 ];
 
+const missionStatement = 'CAAM exists to establish Ayurveda as a recognized healthcare profession in California, preserving its authentic wisdom while making its transformative benefits accessible to all.';
+
 export default function Mission() {
   return (
-    <div className="py-20">
-      <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-base text-emerald-700 font-semibold tracking-wide uppercase mb-2">Our Mission</h2>
-          <p className="max-w-2xl mx-auto text-xl text-gray-700">
-            Join us in our mission to advance Ayurveda in California and beyond.
+    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: 'var(--off-white)' }}>
+      {/* Decorative elements */}
+      <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-10" style={{ backgroundColor: 'var(--brand-gold)' }}></div>
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full opacity-10" style={{ backgroundColor: 'var(--dark-green)' }}></div>
+      
+      <div className="container relative z-10 mx-auto">
+        {/* Mission Headline */}
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight" style={{ color: 'var(--dark-green)' }}>
+            Our Mission
+          </h2>
+          
+          {/* Mission Statement */}
+          <div className="mx-auto max-w-3xl mb-10 px-6 py-8 rounded-lg relative" style={{ backgroundColor: 'var(--white)', borderLeft: '4px solid var(--brand-gold)' }}>
+            <p className="text-xl md:text-2xl italic font-medium leading-relaxed" style={{ color: 'var(--dark-green)' }}>
+              {missionStatement}
+            </p>
+          </div>
+          
+          {/* Vision Statement */}
+          <p className="text-lg md:text-xl max-w-4xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            We envision a California where Ayurveda is an integral part of the healthcare landscape, honored for its wisdom in fostering holistic well-being and recognized as a profession that harmonizes body, mind, and spirit with nature.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <div key={feature.name} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <div className="inline-flex items-center justify-center p-3 rounded-md bg-emerald-100 text-emerald-800 mb-5">
-                  <feature.icon className="h-6 w-6" aria-hidden="true" />
+        {/* Mission Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 mt-16">
+          {missionPillars.map((pillar, index) => {
+            const IconComponent = pillar.icon;
+            return (
+              <div 
+                key={index} 
+                className="group relative overflow-hidden transition-all duration-300 ease-in-out"
+              >
+                {/* Card */}
+                <div className="bg-white rounded-lg p-8 h-full flex flex-col relative z-10 shadow-md group-hover:shadow-xl transition-all duration-300 ease-in-out">
+                  {/* Icon and Title Row */}
+                  <div className="flex items-center mb-5" style={{ alignItems: 'center' }}>
+                    {/* Icon */}
+                    <div className="flex-shrink-0 mr-3 rounded-full" style={{ background: 'rgba(201, 175, 76, 0.15)', padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <IconComponent style={{ color: 'var(--brand-gold)', width: '24px', height: '24px' }} />
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 style={{ color: 'var(--dark-green)', fontSize: '1.25rem', fontWeight: '600', margin: 0, padding: 0, lineHeight: 1 }}>
+                      {pillar.title}
+                    </h3>
+                  </div>
+                  <p className="text-base leading-relaxed flex-grow text-center md:text-left" style={{ color: 'var(--text-secondary)' }}>
+                    {pillar.description}
+                  </p>
+                  
+                  {/* Bottom Border */}
+                  <div 
+                    className="absolute bottom-0 left-0 w-full h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                    style={{ backgroundColor: 'var(--brand-gold)' }}
+                  ></div>
                 </div>
-                <h4 className="text-xl font-semibold mb-3 text-gray-900">{feature.name}</h4>
-                <p className="leading-relaxed text-gray-800">{feature.description}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
-        <div className="mt-10 text-center">
-          <CAAMButton
-          variant="outline"
-            href="/history"
-            size="md"
-          >
-            Learn more about our history
-          </CAAMButton>
+        {/* Conclusion Statement */}
+        <div className="mt-20 text-center">
+          <p className="text-lg md:text-xl font-medium max-w-4xl mx-auto mb-8" style={{ color: 'var(--accent-primary)' }}>
+            Join us in shaping the future of holistic healthcare in California.
+          </p>
+          
+          <div className="flex justify-center">
+            <CAAMButton
+              href="/membership"
+              variant="primary"
+              size="md"
+              showArrow={true}
+              className="shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Become a Member Today
+            </CAAMButton>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
